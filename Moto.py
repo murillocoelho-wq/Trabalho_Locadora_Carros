@@ -96,4 +96,4 @@ class Moto:
         """Retorna os dados da moto de forma legível."""
         situacao = "Alugada" if self.__alugada else "Disponível"
         return (f"{type(self).__name__}: {self.__modelo} | Placa {self.__placa} | "
-                f"{self.__ano} | R$ {self.__valor_diaria:.2f}/dia | {situacao}")git
+                f"{self.__ano} | R$ {self.__valor_diaria:.2f}/dia | {situacao}")
