@@ -1,4 +1,4 @@
-"""Módulo da classe base Veiculo."""
+"""Módulo com a classe base Veiculo e a classe Locadora."""
 
 
 class Veiculo:
@@ -74,3 +74,66 @@ class Veiculo:
         """Exibe os dados do veículo de forma legível."""
         return (f"Placa: {self.__placa} | Modelo: {self.__modelo} | "
                 f"Ano: {self.__ano} | Diária: R$ {self.__valor_diaria:.2f}")
+
+
+class Locadora:
+    """Classe que gerencia o cadastro e o aluguel de veículos."""
+
+    def __init__(self, nome):
+        """Inicializa a locadora.
+
+        Args:
+            nome (str): nome da locadora.
+        """
+        self.__nome = nome
+        self.__veiculos = []
+
+    @property
+    def nome(self):
+        """Retorna o nome da locadora."""
+        return self.__nome
+
+    def cadastrar(self, veiculo):
+        """Cadastra um veículo, não permitindo placa repetida.
+
+        Args:
+            veiculo (Veiculo): veículo a ser cadastrado.
+        """
+        if self.buscar_por_placa(veiculo.placa) is not None:
+            raise ValueError(f"Já existe um veículo com a placa {veiculo.placa}.")
+        self.__veiculos.append(veiculo)
+
+    def listar(self):
+        """Retorna uma cópia da lista de veículos cadastrados."""
+        return list(self.__veiculos)
+
+    def buscar_por_placa(self, placa):
+        """Busca um veículo pela placa.
+
+        Args:
+            placa (str): placa a ser procurada.
+
+        Returns:
+            Veiculo | None: o veículo encontrado ou None.
+        """
+        placa = str(placa).strip().upper()
+        for veiculo in self.__veiculos:
+            if veiculo.placa.strip().upper() == placa:
+                return veiculo
+        return None
+
+    def simular_alugueis(self, dias):
+        """Calcula o aluguel de todos os veículos (polimorfismo).
+
+        Args:
+            dias (int): quantidade de dias de aluguel.
+
+        Returns:
+            list: lista de tuplas (veiculo, valor).
+        """
+        return [(veiculo, veiculo.calcular_aluguel(dias))
+                for veiculo in self.__veiculos]
+
+    def __str__(self):
+        """Exibe o nome da locadora e a quantidade de veículos."""
+        return f"{self.__nome} - {len(self.__veiculos)} veículo(s) cadastrado(s)"

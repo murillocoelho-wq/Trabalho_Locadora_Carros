@@ -1,79 +1,43 @@
-"""Módulo com a classe base Moto."""
+"""Módulo da classe Moto, filha de Veiculo."""
+
+from locadora import Veiculo
 
 
-class Moto:
-    """Classe base que representa uma moto disponível para aluguel."""
+class Moto(Veiculo):
+    """Classe que representa uma moto da locadora."""
 
-    def __init__(self, modelo, placa, ano, valor_diaria):
-        """Cria uma moto.
+    LIMITE_CILINDRADAS = 500
+    PERCENTUAL_ADICIONAL = 0.10
+
+    def __init__(self, placa, modelo, ano, valor_diaria, cilindradas):
+        """Inicializa uma moto.
 
         Args:
+            placa (str): placa da moto.
             modelo (str): modelo da moto (não pode ser vazio).
-            placa (str): placa da moto (não pode ser vazia).
-            ano (int): ano de fabricação (entre 1980 e 2100).
+            ano (int): ano de fabricação.
             valor_diaria (float): valor da diária em R$ (maior que zero).
+            cilindradas (int): cilindradas do motor (cc).
         """
-        self.__modelo = None
-        self.__placa = None
-        self.__ano = None
-        self.__valor_diaria = None
+        super().__init__(placa, modelo, ano, valor_diaria)
         self.__alugada = False
-        self.modelo = modelo
-        self.placa = placa
-        self.ano = ano
-        self.valor_diaria = valor_diaria
+        self.cilindradas = cilindradas
 
     @property
-    def modelo(self):
-        """Retorna o modelo da moto."""
-        return self.__modelo
+    def cilindradas(self):
+        """Retorna as cilindradas da moto."""
+        return self.__cilindradas
 
-    @modelo.setter
-    def modelo(self, valor):
-        """Define o modelo, recusando valores vazios."""
-        if not isinstance(valor, str) or not valor.strip():
-            raise ValueError("O modelo não pode ser vazio.")
-        self.__modelo = valor.strip()
-
-    @property
-    def placa(self):
-        """Retorna a placa da moto."""
-        return self.__placa
-
-    @placa.setter
-    def placa(self, valor):
-        """Define a placa, recusando valores vazios."""
-        if not isinstance(valor, str) or not valor.strip():
-            raise ValueError("A placa não pode ser vazia.")
-        self.__placa = valor.strip().upper()
-
-    @property
-    def ano(self):
-        """Retorna o ano de fabricação."""
-        return self.__ano
-
-    @ano.setter
-    def ano(self, valor):
-        """Define o ano, recusando anos fora do intervalo 1980-2100."""
-        if valor < 1980 or valor > 2100:
-            raise ValueError("O ano deve estar entre 1980 e 2100.")
-        self.__ano = valor
-
-    @property
-    def valor_diaria(self):
-        """Retorna o valor da diária em R$."""
-        return self.__valor_diaria
-
-    @valor_diaria.setter
-    def valor_diaria(self, valor):
-        """Define a diária, recusando zero ou valores negativos."""
+    @cilindradas.setter
+    def cilindradas(self, valor):
+        """Define as cilindradas, que devem ser maiores que zero."""
         if valor <= 0:
-            raise ValueError("O valor da diária deve ser maior que zero.")
-        self.__valor_diaria = valor
+            raise ValueError("As cilindradas devem ser maiores que zero.")
+        self.__cilindradas = valor
 
     @property
     def alugada(self):
-        """Retorna True se a moto está alugada."""
+        """Retorna True se a moto estiver alugada."""
         return self.__alugada
 
     @alugada.setter
@@ -81,19 +45,32 @@ class Moto:
         """Define se a moto está alugada."""
         self.__alugada = bool(valor)
 
-    def calcular_aluguel(self, dias):
-        """Retorna o valor do aluguel para a quantidade de dias.
-
-        Método sobrescrito nas classes filhas.
-        """
-        return self.__valor_diaria * dias
+    def eh_alta_cilindrada(self):
+        """Retorna True se a moto tiver mais de 500 cc."""
+        return self.__cilindradas > self.LIMITE_CILINDRADAS
 
     def descrever_uso(self):
-        """Retorna uma frase sobre o uso ideal da moto (sobrescrito)."""
+        """Descreve o tipo de uso da moto."""
+        if self.eh_alta_cilindrada():
+            return "Moto de alta cilindrada."
         return "Moto de uso geral."
 
+    def calcular_aluguel(self, dias):
+        """Calcula o aluguel, com adicional para motos de alta cilindrada.
+
+        Args:
+            dias (int): quantidade de dias de aluguel.
+
+        Returns:
+            float: valor total do aluguel.
+        """
+        total = self.valor_diaria * dias
+        if self.eh_alta_cilindrada():
+            total += total * self.PERCENTUAL_ADICIONAL
+        return total
+
     def __str__(self):
-        """Retorna os dados da moto de forma legível."""
+        """Exibe os dados da moto de forma legível."""
         situacao = "Alugada" if self.__alugada else "Disponível"
-        return (f"{type(self).__name__}: {self.__modelo} | Placa {self.__placa} | "
-                f"{self.__ano} | R$ {self.__valor_diaria:.2f}/dia | {situacao}")
+        return (f"[Moto] {super().__str__()} | "
+                f"Cilindradas: {self.__cilindradas} cc | {situacao}")

@@ -1,10 +1,11 @@
+
 """Módulo da classe Carro, filha de Veiculo."""
 
-from veiculos import Veiculo
+from locadora import Veiculo
 
 
 class Carro(Veiculo):
-    """Carro de passeio. Recebe desconto em aluguéis de 7 dias ou mais."""
+    """Classe que representa um carro da locadora."""
 
     DIAS_PARA_DESCONTO = 7
     PERCENTUAL_DESCONTO = 0.10
@@ -24,22 +25,22 @@ class Carro(Veiculo):
 
     @property
     def numero_portas(self):
-        """Retorna o número de portas."""
+        """Retorna o número de portas do carro."""
         return self.__numero_portas
 
     @numero_portas.setter
     def numero_portas(self, valor):
-        """Define o número de portas, que deve ser entre 2 e 5."""
+        """Define o número de portas, que deve estar entre 2 e 5."""
         if valor < 2 or valor > 5:
             raise ValueError("O número de portas deve estar entre 2 e 5.")
         self.__numero_portas = valor
 
     def eh_familiar(self):
-        """Indica se o carro é familiar (4 portas ou mais)."""
+        """Retorna True se o carro tiver 4 portas ou mais."""
         return self.__numero_portas >= 4
 
     def calcular_aluguel(self, dias):
-        """Calcula o aluguel com 10% de desconto a partir de 7 dias.
+        """Calcula o aluguel, com desconto para aluguéis longos.
 
         Args:
             dias (int): quantidade de dias de aluguel.

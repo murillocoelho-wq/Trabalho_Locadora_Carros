@@ -1,10 +1,10 @@
 """Módulo da classe Caminhao, filha de Veiculo."""
 
-from veiculos import Veiculo
+from locadora import Veiculo
 
 
 class Caminhao(Veiculo):
-    """Caminhão. O aluguel tem adicional diário por tonelada de capacidade."""
+    """Classe que representa um caminhão da locadora."""
 
     ADICIONAL_POR_TONELADA = 10.0
 

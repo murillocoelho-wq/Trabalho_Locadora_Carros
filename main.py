@@ -1,18 +1,16 @@
-"""Programa principal da locadora de veículos (menu no terminal)."""
-
-from caminhao import Caminhao
-from carro import Carro
+from Caminhão import Caminhao
+from carros import Carro
 from locadora import Locadora
-from moto import Moto
+from Moto import Moto
 
 
 def ler_texto(mensagem):
-    """Lê um texto do usuário com input()."""
+
     return input(mensagem).strip()
 
 
 def ler_inteiro(mensagem):
-    """Lê um número inteiro do usuário, repetindo até ser válido."""
+
     while True:
         try:
             return int(input(mensagem))
@@ -21,7 +19,7 @@ def ler_inteiro(mensagem):
 
 
 def ler_decimal(mensagem):
-    """Lê um número decimal do usuário, repetindo até ser válido."""
+
     while True:
         try:
             return float(input(mensagem).replace(",", "."))
@@ -30,7 +28,7 @@ def ler_decimal(mensagem):
 
 
 def exibir_menu():
-    """Exibe as opções do menu."""
+
     print("\n===== LOCADORA DE VEÍCULOS =====")
     print("1 - Cadastrar veículo")
     print("2 - Listar veículos")
@@ -40,7 +38,7 @@ def exibir_menu():
 
 
 def cadastrar_veiculo(locadora):
-    """Pede os dados ao usuário, cria o veículo e cadastra na locadora."""
+
     print("\nTipo de veículo: 1 - Carro | 2 - Moto | 3 - Caminhão")
     tipo = ler_inteiro("Escolha o tipo: ")
     if tipo not in (1, 2, 3):
@@ -69,7 +67,7 @@ def cadastrar_veiculo(locadora):
 
 
 def listar_veiculos(locadora):
-    """Exibe todos os veículos cadastrados."""
+
     veiculos = locadora.listar()
     print(f"\n{locadora}")
     if not veiculos:
@@ -80,7 +78,7 @@ def listar_veiculos(locadora):
 
 
 def buscar_veiculo(locadora):
-    """Busca e exibe um veículo pela placa."""
+
     placa = ler_texto("\nPlaca a buscar: ")
     veiculo = locadora.buscar_por_placa(placa)
     if veiculo is None:
@@ -90,7 +88,7 @@ def buscar_veiculo(locadora):
 
 
 def calcular_alugueis(locadora):
-    """Calcula o aluguel de todos os veículos com o mesmo método."""
+
     if not locadora.listar():
         print("\nNenhum veículo cadastrado.")
         return
@@ -104,7 +102,7 @@ def calcular_alugueis(locadora):
 
 
 def main():
-    """Executa o menu até o usuário escolher sair."""
+
     locadora = Locadora("Locadora Prototipo")
     opcoes = {
         1: cadastrar_veiculo,
