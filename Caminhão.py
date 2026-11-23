@@ -1,4 +1,4 @@
-"""Módulo da classe Caminhao, filha de Veiculo."""
+
 
 from locadora import Veiculo
 
